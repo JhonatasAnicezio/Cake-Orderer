@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  validate-tests: # Nome do job (sem espaço nem caracteres especiais)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download the repository and checkout at the agency where the job is running
+        uses: actions/checkout@v4  # Atualizado para a última versão
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: set up docker-compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose
+
+      - name: run docker db
+        run: |
+          docker-compose up -d
+          sleep 30
+
+      - name: verify test coverage
+        run: mvn clean verify
+
+      - name: down container
+        if: always()
+        run: docker-compose down
