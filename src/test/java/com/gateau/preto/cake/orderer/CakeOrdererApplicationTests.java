@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CakeOrdererApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main() {
+		CakeOrdererApplication.main(new String[] {});
 	}
 
 }
