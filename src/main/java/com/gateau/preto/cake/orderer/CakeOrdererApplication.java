@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CakeOrdererApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(CakeOrdererApplication.class, args);
-  }
+	public static void main(String[] args) {
+		SpringApplication.run(CakeOrdererApplication.class, args);
+	}
 
 }
