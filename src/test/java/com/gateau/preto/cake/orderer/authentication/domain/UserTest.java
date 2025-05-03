@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.List;
 
 @SpringBootTest
+@DisplayName("Test class User")
 public class UserTest {
 
   @Test
