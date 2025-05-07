@@ -1,4 +1,4 @@
-package com.gateau.preto.cake.orderer.infrastructure;
+package com.gateau.preto.cake.orderer.core;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
