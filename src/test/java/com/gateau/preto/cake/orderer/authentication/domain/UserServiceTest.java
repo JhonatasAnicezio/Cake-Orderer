@@ -1,5 +1,7 @@
 package com.gateau.preto.cake.orderer.authentication.domain;
 
+import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
+import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,26 +62,49 @@ public class UserServiceTest {
 
   @Test
   @DisplayName("Test method createUser")
-  public void createUserTest() {
+  public void createUserTest() throws UserAlreadyExistsException {
     User user = User.builder()
+        .name("super xicrinho")
         .email("xicrinho@email.com")
         .password("123456789")
         .role("USER")
         .build();
 
+    UserResponseDto expected = UserResponseDto.builder()
+        .name(user.getName())
+        .email(user.getEmail())
+        .role(user.getRole())
+        .build();
+
     Mockito.when(passwordEncoder.encode(Mockito.anyString()))
-            .thenReturn("senhasupercriptografada");
+        .thenReturn("senhasupercriptografada");
+
+    Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+        .thenReturn(Optional.empty());
 
     Mockito.when(userRepository.save(Mockito.any(User.class)))
         .thenAnswer(invocation -> invocation.getArgument(0));
 
-    User newUser = userService.createUser(user);
+    UserResponseDto newUser = userService.createUser(user);
 
-    Assertions.assertEquals(user.getEmail(), newUser.getEmail());
-    Assertions.assertEquals(user.getAuthorities(), newUser.getAuthorities());
-    Assertions.assertEquals("senhasupercriptografada", newUser.getPassword());
+    Assertions.assertEquals(expected, newUser);
 
     Mockito.verify(userRepository).save(Mockito.any(User.class));
     Mockito.verify(passwordEncoder).encode(Mockito.anyString());
+    Mockito.verify(userRepository).findByEmail(Mockito.anyString());
+  }
+
+  @Test
+  @DisplayName("Test method userCreate")
+  public void createUserTestEmailAlreadyExist() throws UserAlreadyExistsException {
+    User newUser = User.builder().email("xicrinho@email.com").build();
+
+    Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+        .thenReturn(Optional.of(User.builder().build()));
+
+    Assertions.assertThrows(UserAlreadyExistsException.class, () ->
+        userService.createUser(newUser));
+
+    Mockito.verify(userRepository).findByEmail(Mockito.anyString());
   }
 }

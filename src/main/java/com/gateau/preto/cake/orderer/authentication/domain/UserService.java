@@ -1,5 +1,9 @@
 package com.gateau.preto.cake.orderer.authentication.domain;
 
+import com.gateau.preto.cake.orderer.authentication.application.UserMapper;
+import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
+import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,12 +16,24 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final UserMapper userMapper;
 
-  public User createUser(User newUser) {
-    newUser.setPassword(
-        passwordEncoder.encode(newUser.getPassword()));
+  public UserResponseDto createUser(User newUser) throws UserAlreadyExistsException {
+    String userEmail = newUser.getEmail();
 
-    return userRepository.save(newUser);
+    if (findByEmail(userEmail).isEmpty()) {
+
+      newUser.setPassword(
+          passwordEncoder.encode(newUser.getPassword()));
+
+      return userMapper.fromEntity(userRepository.save(newUser));
+    }
+
+    throw new UserAlreadyExistsException();
+  }
+
+  public Optional<User> findByEmail(String email) {
+    return userRepository.findByEmail(email);
   }
 
   @Override
