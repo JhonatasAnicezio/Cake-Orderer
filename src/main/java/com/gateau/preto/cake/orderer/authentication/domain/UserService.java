@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
   private final UserMapper userMapper;
 
   public UserResponseDto createUser(User newUser) throws UserAlreadyExistsException {
@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
     if (findByEmail(userEmail).isEmpty()) {
 
       newUser.setPassword(
-          passwordEncoder.encode(newUser.getPassword()));
+          new BCryptPasswordEncoder().encode(newUser.getPassword()));
 
       return userMapper.fromEntity(userRepository.save(newUser));
     }

@@ -26,9 +26,6 @@ public class UserServiceTest {
   @MockBean
   private UserRepository userRepository;
 
-  @MockBean
-  private PasswordEncoder passwordEncoder;
-
   @Test
   @DisplayName("Test method loadUserByUsername")
   public void loadByUsernameTest() {
@@ -76,9 +73,6 @@ public class UserServiceTest {
         .role(user.getRole())
         .build();
 
-    Mockito.when(passwordEncoder.encode(Mockito.anyString()))
-        .thenReturn("senhasupercriptografada");
-
     Mockito.when(userRepository.findByEmail(Mockito.anyString()))
         .thenReturn(Optional.empty());
 
@@ -90,7 +84,6 @@ public class UserServiceTest {
     Assertions.assertEquals(expected, newUser);
 
     Mockito.verify(userRepository).save(Mockito.any(User.class));
-    Mockito.verify(passwordEncoder).encode(Mockito.anyString());
     Mockito.verify(userRepository).findByEmail(Mockito.anyString());
   }
 
