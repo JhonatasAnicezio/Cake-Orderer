@@ -27,6 +27,28 @@ public class UserServiceTest {
   private UserRepository userRepository;
 
   @Test
+  @DisplayName("Test method findEmail")
+  public void findEmailTest() {
+    Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+        .thenReturn(Optional.of(User.builder().build()));
+
+    Optional<User> user = userService.findByEmail("xicrinho@email.com");
+
+    Assertions.assertNotNull(user.get());
+  }
+
+  @Test
+  @DisplayName("Test method findEmail - case not found user")
+  public void findEmailTestNotFound() {
+    Mockito.when(userRepository.findByEmail(Mockito.anyString()))
+        .thenReturn(Optional.empty());
+
+    Optional<User> user = userService.findByEmail("xicrinho@email.com");
+
+    Assertions.assertTrue(user.isEmpty());
+  }
+
+  @Test
   @DisplayName("Test method loadUserByUsername")
   public void loadByUsernameTest() {
     User userInRepository = User.builder()
@@ -88,7 +110,7 @@ public class UserServiceTest {
   }
 
   @Test
-  @DisplayName("Test method userCreate")
+  @DisplayName("Test method create user already exist")
   public void createUserTestEmailAlreadyExist() throws UserAlreadyExistsException {
     User newUser = User.builder().email("xicrinho@email.com").build();
 
