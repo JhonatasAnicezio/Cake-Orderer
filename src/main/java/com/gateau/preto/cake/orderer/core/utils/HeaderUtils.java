@@ -1,9 +1,8 @@
 package com.gateau.preto.cake.orderer.core.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 @Component
 public class HeaderUtils {
