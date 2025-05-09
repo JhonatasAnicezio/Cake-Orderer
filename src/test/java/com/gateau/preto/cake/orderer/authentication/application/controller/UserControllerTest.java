@@ -1,4 +1,4 @@
-package com.gateau.preto.cake.orderer.authentication.controller.application.controller;
+package com.gateau.preto.cake.orderer.authentication.application.controller;
 
 import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDto;
