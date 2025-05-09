@@ -1,9 +1,11 @@
-package com.gateau.preto.cake.orderer.authentication.domain;
+package com.gateau.preto.cake.orderer.authentication.domain.service;
 
-import com.gateau.preto.cake.orderer.authentication.application.UserMapper;
-import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDTO;
-import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDTO;
+import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDto;
+import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
+import com.gateau.preto.cake.orderer.authentication.application.mapper.UserMapper;
+import com.gateau.preto.cake.orderer.authentication.domain.model.User;
+import com.gateau.preto.cake.orderer.authentication.domain.repository.UserRepository;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.IncorrectAuthException;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import java.util.Optional;
@@ -35,12 +37,12 @@ public class UserService implements UserDetailsService {
     throw new UserAlreadyExistsException();
   }
 
-  public TokenDTO authentication(RequestAuthenticationDTO auth) throws IncorrectAuthException {
+  public TokenDto authentication(RequestAuthenticationDto auth) throws IncorrectAuthException {
     UserDetails user = loadUserByUsername(auth.getEmail());
     String password = new BCryptPasswordEncoder().encode(auth.getPassword());
 
     if (user.getPassword().equals(password)) {
-      return TokenDTO.builder()
+      return TokenDto.builder()
           .token(jwtService.jwtEncode(user.getUsername()))
           .build();
     }

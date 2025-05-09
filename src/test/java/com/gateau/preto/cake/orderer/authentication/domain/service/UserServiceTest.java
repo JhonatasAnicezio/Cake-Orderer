@@ -1,6 +1,9 @@
-package com.gateau.preto.cake.orderer.authentication.domain;
+package com.gateau.preto.cake.orderer.authentication.domain.service;
 
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
+import com.gateau.preto.cake.orderer.authentication.domain.model.Role;
+import com.gateau.preto.cake.orderer.authentication.domain.model.User;
+import com.gateau.preto.cake.orderer.authentication.domain.repository.UserRepository;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -54,7 +56,7 @@ public class UserServiceTest {
     User userInRepository = User.builder()
         .email("xicrinho@email.com")
         .password("123456789")
-        .role("USER")
+        .role(Role.CLIENT)
         .build();
 
     Mockito.when(userRepository.findByEmail(ArgumentMatchers.anyString()))
@@ -86,7 +88,7 @@ public class UserServiceTest {
         .name("super xicrinho")
         .email("xicrinho@email.com")
         .password("123456789")
-        .role("USER")
+        .role(Role.CLIENT)
         .build();
 
     UserResponseDto expected = UserResponseDto.builder()

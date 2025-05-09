@@ -1,4 +1,4 @@
-package com.gateau.preto.cake.orderer.authentication.domain;
+package com.gateau.preto.cake.orderer.authentication.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,11 +29,11 @@ public class User implements UserDetails {
   private String name;
   private String email;
   private String password;
-  private String role;
+  private Role role;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return List.of(new SimpleGrantedAuthority(role));
+    return List.of(new SimpleGrantedAuthority(role.name()));
   }
 
   @Override

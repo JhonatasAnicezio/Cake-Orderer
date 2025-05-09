@@ -1,8 +1,8 @@
-package com.gateau.preto.cake.orderer.authentication.application;
+package com.gateau.preto.cake.orderer.authentication.application.mapper;
 
 import com.gateau.preto.cake.orderer.authentication.application.dto.RequestCreateUserDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
-import com.gateau.preto.cake.orderer.authentication.domain.User;
+import com.gateau.preto.cake.orderer.authentication.domain.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

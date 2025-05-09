@@ -1,4 +1,4 @@
-package com.gateau.preto.cake.orderer.authentication.domain;
+package com.gateau.preto.cake.orderer.authentication.domain.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,12 +15,12 @@ public class UserTest {
   @Test
   @DisplayName("Test methods getter")
   public void testMethodGetPassword() {
-    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
+    SimpleGrantedAuthority authority = new SimpleGrantedAuthority("CLIENT");
     User user = User.builder()
         .email("xicrinho@email.com")
         .password("123456789")
-        .role("USER")
-        .build();;
+        .role(Role.CLIENT)
+        .build();
 
     Assertions.assertEquals("123456789", user.getPassword());
     Assertions.assertEquals("xicrinho@email.com", user.getUsername());

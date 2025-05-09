@@ -1,11 +1,11 @@
-package com.gateau.preto.cake.orderer.authentication.application;
+package com.gateau.preto.cake.orderer.authentication.application.controller;
 
-import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDTO;
+import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.RequestCreateUserDto;
-import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDTO;
+import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
-import com.gateau.preto.cake.orderer.authentication.domain.User;
-import com.gateau.preto.cake.orderer.authentication.domain.UserService;
+import com.gateau.preto.cake.orderer.authentication.application.mapper.UserMapper;
+import com.gateau.preto.cake.orderer.authentication.domain.service.UserService;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.IncorrectAuthException;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import jakarta.validation.Valid;
@@ -37,10 +37,10 @@ public class UserController {
   }
 
   @PostMapping("/auth")
-  public ResponseEntity<TokenDTO> auth(
-      @RequestBody @Valid RequestAuthenticationDTO requestAuthenticationDTO
-      ) throws IncorrectAuthException {
+  public ResponseEntity<TokenDto> auth(
+      @RequestBody @Valid RequestAuthenticationDto requestAuthenticationDto
+  ) throws IncorrectAuthException {
     return ResponseEntity.status(HttpStatus.OK)
-        .body(userService.authentication(requestAuthenticationDTO));
+        .body(userService.authentication(requestAuthenticationDto));
   }
 }

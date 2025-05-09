@@ -1,4 +1,4 @@
-package com.gateau.preto.cake.orderer.authentication.domain;
+package com.gateau.preto.cake.orderer.authentication.domain.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

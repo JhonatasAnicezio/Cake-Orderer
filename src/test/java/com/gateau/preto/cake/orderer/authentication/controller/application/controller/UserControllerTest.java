@@ -1,9 +1,10 @@
-package com.gateau.preto.cake.orderer.authentication.controller;
+package com.gateau.preto.cake.orderer.authentication.controller.application.controller;
 
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
-import com.gateau.preto.cake.orderer.authentication.domain.JwtService;
-import com.gateau.preto.cake.orderer.authentication.domain.User;
-import com.gateau.preto.cake.orderer.authentication.domain.UserService;
+import com.gateau.preto.cake.orderer.authentication.domain.model.Role;
+import com.gateau.preto.cake.orderer.authentication.domain.service.JwtService;
+import com.gateau.preto.cake.orderer.authentication.domain.model.User;
+import com.gateau.preto.cake.orderer.authentication.domain.service.UserService;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -39,13 +39,13 @@ public class UserControllerTest {
     Mockito.when(jwtService.jwtVerify(Mockito.anyString()))
         .thenReturn("token");
     Mockito.when(userService.loadUserByUsername(Mockito.anyString()))
-        .thenReturn(User.builder().role("SUPER_ADMIN").build());
+        .thenReturn(User.builder().role(Role.SUPER_ADMIN).build());
     Mockito.when(userService.createUser(Mockito.any(User.class)))
         .thenReturn(UserResponseDto.builder()
             .id(1L)
             .email("xicrinho@email.com")
             .name("xicrinho")
-            .role("SUPER_ADMIN")
+            .role(Role.SUPER_ADMIN)
             .build());
 
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
@@ -67,7 +67,7 @@ public class UserControllerTest {
     Mockito.when(jwtService.jwtVerify(Mockito.anyString()))
         .thenReturn("xicrinho@email.com");
     Mockito.when(userService.loadUserByUsername(Mockito.anyString()))
-        .thenReturn(User.builder().role("SUPER_ADMIN").build());
+        .thenReturn(User.builder().role(Role.SUPER_ADMIN).build());
 
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
             .header(HttpHeaders.AUTHORIZATION, "Bearer tokenadmin")
@@ -87,7 +87,7 @@ public class UserControllerTest {
     Mockito.when(jwtService.jwtVerify(Mockito.anyString()))
         .thenReturn("xicrinho@email.com");
     Mockito.when(userService.loadUserByUsername(Mockito.anyString()))
-        .thenReturn(User.builder().role("SUPER_ADMIN").build());
+        .thenReturn(User.builder().role(Role.SUPER_ADMIN).build());
 
     mockMvc.perform(MockMvcRequestBuilders.post("/api/users")
             .header(HttpHeaders.AUTHORIZATION, "Bearer tokenadmin")
@@ -106,7 +106,7 @@ public class UserControllerTest {
           "name": "Xicrinho",
           "email": "xicrinho@example.com",
           "password": "senhaForte123",
-          "role": "CLIENTE"
+          "role": "CLIENT"
         }
         """;
   }
@@ -116,7 +116,7 @@ public class UserControllerTest {
         {
           "email": "xicrinho@example.com",
           "password": "senhaForte123",
-          "role": "CLIENTE"
+          "role": "CLIENT"
         }
         """;
   }
@@ -126,7 +126,7 @@ public class UserControllerTest {
         {
           "name": "Xicrinho",
           "password": "senhaForte123",
-          "role": "CLIENTE"
+          "role": "CLIENT"
         }
         """;
   }
@@ -136,7 +136,7 @@ public class UserControllerTest {
         {
           "name": "Xicrinho",
           "email": "xicrinho@example.com",
-          "role": "CLIENTE"
+          "role": "CLIENT"
         }
         """;
   }

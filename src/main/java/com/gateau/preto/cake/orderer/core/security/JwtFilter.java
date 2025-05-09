@@ -1,14 +1,14 @@
 package com.gateau.preto.cake.orderer.core.security;
 
-import com.gateau.preto.cake.orderer.authentication.domain.JwtService;
-import com.gateau.preto.cake.orderer.authentication.domain.UserService;
+import com.gateau.preto.cake.orderer.authentication.domain.service.JwtService;
+import com.gateau.preto.cake.orderer.authentication.domain.service.UserService;
 import com.gateau.preto.cake.orderer.core.utils.HeaderUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
