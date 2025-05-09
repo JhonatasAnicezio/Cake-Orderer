@@ -1,7 +1,9 @@
 package com.gateau.preto.cake.orderer.authentication.application.dto;
 
+import com.gateau.preto.cake.orderer.authentication.domain.model.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +27,6 @@ public class RequestCreateUserDto {
   @Size(min = 6, message = "A senha deve ter no minimo 6 caracteres")
   private String password;
 
-  @NotBlank(message = "O tipo de usuário (role) é obrigatório")
-  private String role;
+  @NotNull(message = "O tipo de usuário (role) é obrigatório")
+  private Role role;
 }
