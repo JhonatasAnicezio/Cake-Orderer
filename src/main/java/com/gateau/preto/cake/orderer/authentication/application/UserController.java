@@ -36,7 +36,7 @@ public class UserController {
         ));
   }
 
-  @PostMapping
+  @PostMapping("/auth")
   public ResponseEntity<TokenDTO> auth(
       @RequestBody @Valid RequestAuthenticationDTO requestAuthenticationDTO
       ) throws IncorrectAuthException {
