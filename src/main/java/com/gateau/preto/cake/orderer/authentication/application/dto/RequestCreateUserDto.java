@@ -26,7 +26,5 @@ public class RequestCreateUserDto {
   @NotBlank(message = "A senha é obrigatória")
   @Size(min = 6, message = "A senha deve ter no minimo 6 caracteres")
   private String password;
-
-  @NotNull(message = "O tipo de usuário (role) é obrigatório")
   private Role role;
 }

@@ -5,8 +5,8 @@ import com.gateau.preto.cake.orderer.authentication.application.dto.RequestCreat
 import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
 import com.gateau.preto.cake.orderer.authentication.application.mapper.UserMapper;
+import com.gateau.preto.cake.orderer.authentication.domain.service.AuthenticationService;
 import com.gateau.preto.cake.orderer.authentication.domain.service.UserService;
-import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.IncorrectAuthException;
 import com.gateau.preto.cake.orderer.authentication.infraestructure.exception.UserAlreadyExistsException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ public class UserController {
 
   private final UserService userService;
   private final UserMapper userMapper;
+  private final AuthenticationService authenticationService;
 
   @PostMapping
   public ResponseEntity<UserResponseDto> createUser(
@@ -39,8 +40,10 @@ public class UserController {
   @PostMapping("/auth")
   public ResponseEntity<TokenDto> auth(
       @RequestBody @Valid RequestAuthenticationDto requestAuthenticationDto
-  ) throws IncorrectAuthException {
+  ) {
+    TokenDto tokenDto = authenticationService.authenticate(requestAuthenticationDto);
+
     return ResponseEntity.status(HttpStatus.OK)
-        .body(userService.authentication(requestAuthenticationDto));
+        .body(tokenDto);
   }
 }

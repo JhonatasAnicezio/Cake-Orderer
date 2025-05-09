@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,18 +28,19 @@ public class JwtFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-    String token = headerUtils.extractToken(request)
-        .orElseThrow();
+    Optional<String> token = headerUtils.extractToken(request);
 
-    String subjectEmail = jwtService.jwtVerify(token);
+    if (token.isPresent()) {
+      String subjectEmail = jwtService.jwtVerify(token.get());
 
-    UserDetails user = userService.loadUserByUsername(subjectEmail);
+      UserDetails user = userService.loadUserByUsername(subjectEmail);
 
-    UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
-        user, null, user.getAuthorities()
-    );
+      UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
+          user, null, user.getAuthorities()
+      );
 
-    SecurityContextHolder.getContext().setAuthentication(usernamePassword);
+      SecurityContextHolder.getContext().setAuthentication(usernamePassword);
+    }
 
     filterChain.doFilter(request, response);
   }

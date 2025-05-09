@@ -1,5 +1,7 @@
 package com.gateau.preto.cake.orderer.authentication.domain.service;
 
+import com.gateau.preto.cake.orderer.authentication.application.dto.RequestAuthenticationDto;
+import com.gateau.preto.cake.orderer.authentication.application.dto.TokenDto;
 import com.gateau.preto.cake.orderer.authentication.application.dto.UserResponseDto;
 import com.gateau.preto.cake.orderer.authentication.domain.model.Role;
 import com.gateau.preto.cake.orderer.authentication.domain.model.User;
@@ -13,6 +15,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
