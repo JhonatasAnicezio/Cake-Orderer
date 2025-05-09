@@ -3,6 +3,7 @@ package com.gateau.preto.cake.orderer.core.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +27,7 @@ public class SecurityConfigurations {
         .sessionManagement(session -> session.sessionCreationPolicy(
             SessionCreationPolicy.STATELESS
         )).authorizeHttpRequests(authorize -> authorize
+            .requestMatchers(HttpMethod.POST, "/api/users/auth").permitAll()
             .anyRequest().authenticated())
         .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
